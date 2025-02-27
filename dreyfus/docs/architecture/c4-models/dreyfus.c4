@@ -1,0 +1,79 @@
+workspace "Dreyfus" "Project Dreyfus Architecture" {
+    model {
+        user = person "Executive" "Uses AI-driven insights for strategy"
+        pm = person "Product Manager" "Uses insights to prioritize features"
+        dev = person "Developer" "Uses recommendations to build features"
+
+        ai_system = softwareSystem "AI-Driven Market Intelligence System" "Analyzes market, user behavior, and business metrics to provide strategic recommendations" {
+            ai_data_pipeline = container "AI Data Pipeline" "Processes and integrates data from multiple sources" {
+                    data_ingestion = component "Data Ingestion Service" "Collects raw data from various sources"
+                    data_processing = component "Data Processing Service" "Cleans and structures the collected data"
+
+            }
+            ai_ml_engine = container "AI & ML Engine" "Analyzes data and generates insights using machine learning" {
+                model_training = component "Model Training Service" "Trains machine learning models on processed data"
+                model_inference = component "Model Inference Service" "Generates insights from trained models"
+        
+            }
+            ai_dashboard = container "Executive Dashboard" "Visualizes insights for decision-making" {
+                visualization = component "Visualization Service" "Displays insights to executives and product managers"
+        
+            }
+        
+        }
+        //ai_system -> ai_data_pipeline "Ingests and processes raw data"
+        ai_data_pipeline -> ai_ml_engine "Feeds structured data for AI analysis"
+        ai_ml_engine -> ai_dashboard "Provides insights and recommendations"
+        
+        market_research = softwareSystem "Market Research Sources" "Data from industry reports, news, competitors"
+        user_analytics = softwareSystem "User Analytics Platform" "Behavioral data, product usage trends"
+        financial_system = softwareSystem "Financial & Business Data" "Revenue, cost structures, business performance"
+
+        user -> ai_system "Requests market & strategy insights"
+        pm -> ai_system "Uses data for roadmap planning"
+        dev -> ai_system "Uses insights for feature development"
+
+        ai_system -> market_research "Fetches market & competitor data"
+        ai_system -> user_analytics "Analyzes customer behavior & trends"
+        ai_system -> financial_system "Integrates financial health analysis"
+        
+        //ai_data_pipeline -> data_ingestion "Pulls data from external sources"
+        data_ingestion -> data_processing "Sends raw data for cleaning and structuring"
+        data_processing -> ai_ml_engine "Provides structured data for training and inference"
+        //ai_ml_engine -> model_training "Trains models using structured data"
+        //ai_ml_engine -> model_inference "Uses trained models to generate insights"
+        model_inference -> ai_dashboard "Delivers insights for visualization"
+        //ai_dashboard -> visualization "Presents insights to users"
+    }
+    
+    views {
+        systemContext ai_system {
+            include *
+            autoLayout
+        }
+        
+        container ai_system {
+            include *
+            autoLayout
+        }
+        
+        component ai_data_pipeline {
+            include *
+            autoLayout
+        }
+        
+        component ai_ml_engine {
+            include *
+            autoLayout
+        }
+        
+        component ai_dashboard {
+            include *
+            autoLayout
+        }
+        
+
+        theme default
+    }
+    
+}
